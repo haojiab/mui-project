@@ -8,6 +8,8 @@ import search from './tabbar/search.vue';
 import supermarket from './tabbar/supermarket.vue';
 import about from './xiangqing/about.vue';
 import reg from './xiangqing/reg.vue';
+import wenzhang from './xiangqing/wenzhang.vue';
+import wenzhanginfo from './xiangqing/wenzhanginfo.vue';
 var router = new VueRouter({
 	routes:[
         {path:'/',redirect:'/home'},
@@ -17,7 +19,9 @@ var router = new VueRouter({
 		{ path: '/search', component: search },
 		{path:'/home/supermarket', component:supermarket},
 		{path:'/home/supermarket/about',component:about},
-		{path:'/member/reg',component:reg}
+		{path:'/member/reg',component:reg},
+		{ path: '/home/wenzhang', component: wenzhang },
+		{ path: '/home/wenzhang/wenzhanginfo/:id', component: wenzhanginfo }
 	],
 	linkActiveClass:"mui-active"
 })

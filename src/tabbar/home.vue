@@ -14,9 +14,9 @@
 		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4"><a href="#">
 		                    <img src="../image/menu2.png" alt="">
 		                    <div class="mui-media-body">海外购</div></a></li>
-		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4"><a href="#">
+		            <router-link to="/home/wenzhang" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4"><a href="#">
 		                    <img src="../image/menu3.png" alt="">
-		                    <div class="mui-media-body">服饰</div></a></li>
+		                    <div class="mui-media-body">服饰</div></a></router-link>
 		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4"><a href="#">
 		                    <img src="../image/menu4.png" alt="">
 		                    <div class="mui-media-body">生鲜</div></a></li>
