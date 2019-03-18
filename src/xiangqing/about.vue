@@ -5,7 +5,7 @@
 			<div class="mui-content">
                 <div style="padding: 10px 10px;">
                     <div id="segmentedControl" class="mui-segmented-control">
-                        <a class="mui-control-item mui-active" href="#item1">商品</a>
+                        <a class="mui-control-item mui-active" href="#item1">商品{{marid}}</a>
                         <a class="mui-control-item" href="#item2">评价</a>
                         <a class="mui-control-item" href="#item3">详情</a>
                         <a class="mui-control-item" href="#item4">推荐</a>
@@ -128,7 +128,7 @@
 
 <script>
 export default {
-
+    props: ['marid']
 }
 </script>
 
