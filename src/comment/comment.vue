@@ -10,7 +10,7 @@
                             </div>
 				                <div class="mui-card-content">
 					                <div class="mui-card-content-inner">
-                                        {{item.content=='undefined'||''?"该用户很懒...":item.content}}
+                                        {{item.content=='undefined'||""?"该用户很懒...":item.content}}
 					                </div>
 				                </div>
 				            <div class="mui-card-footer">
@@ -48,9 +48,15 @@ export default {
             this.$http.post("api/postcomment/"+this.newid,{content:this.contents,url:"api/postcomment/"+this.newid},).then(
                  result=>{
                     if(result.body.status==0){
+                        var obj = {
+                            "add_time":new Date(),
+                            "content":this.contents,
+                            "user_name":"匿名用户"
+                        };
+                        this.commentList.unshift(obj);
                          this.contents="";
                          //this.get();
-                         this.$router.go(0);
+                         //this.$router.go(0);
  
                     }else{
                         console.log("失败");

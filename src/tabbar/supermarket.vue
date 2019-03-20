@@ -1,5 +1,9 @@
 <template>
     <div>
+		<header id="header" class="mui-bar mui-bar-nav headd">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">超市</h1>
+		</header>
         <ul class="mui-table-view mui-grid-view">
 		        <li class="mui-table-view-cell mui-media mui-col-xs-6"  v-for="item in marlist">
 		            <router-link v-bind:marid="11223" to="/home/supermarket/about" href="#">
@@ -47,7 +51,19 @@ export default {
 	}
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
+.headd{
+	position: fixed;
+	top: 0%;
+	z-index: 60;
+	background: red;
+	a{
+		color: #fff;
+	}
+	h1{
+		color: #fff;
+	}
+}
 .mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body{
 	height: 35px;
 }
