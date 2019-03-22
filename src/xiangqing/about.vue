@@ -5,7 +5,7 @@
 			<div class="mui-content">
                 <div style="padding: 10px 10px;">
                     <div id="segmentedControl" class="mui-segmented-control">
-                        <a class="mui-control-item mui-active" href="#item1">商品{{marid}}</a>
+                        <a class="mui-control-item mui-active" href="#item1">商品</a>
                         <a class="mui-control-item" href="#item2">评价</a>
                         <a class="mui-control-item" href="#item3">详情</a>
                         <a class="mui-control-item" href="#item4">推荐</a>
@@ -16,13 +16,14 @@
         <div>
                     <div id="item1" class="mui-control-content mui-active">
                        <div class="mui-card about-in">
-				            <div class="mui-card-header"><img src="../image/f1.jpg" alt=""></div>
+				            <div class="mui-card-header"><img v-bind:src="img_url" alt=""></div>
 				                <div class="mui-card-content">
 					                <div class="mui-card-content-inner">
-                                        粗粮新语【手工现做顺丰航空】健身全麦面包干酪奶酪欧包蔓越莓可可粗粮杂粮代餐糕点无油早餐夹心食品糕点
+                                        {{title}}
+                                        {{zhaiyao}}
                                         <div class="price">
-                                            <span>￥36</span>
-                                            <span>￥29.9</span>
+                                            <span>￥{{market_price}}</span>
+                                            <span>￥{{sell_price}}</span>
                                         </div>
 					                </div>
 				                </div>
@@ -128,7 +129,17 @@
 
 <script>
 export default {
-    props: ['marid']
+    data(){
+        return {
+            id:this.$route.params.id,
+            title:this.$route.params.title,
+            zhaiyao:this.$route.params.zhaiyao,
+            market_price:this.$route.params.market_price,
+            sell_price:this.$route.params.sell_price,
+            img_url:this.$route.params.img_url
+        }
+    },
+
 }
 </script>
 
@@ -136,12 +147,16 @@ export default {
     #item2 .mui-card:nth-child(1){
         margin-top: 70px;
     }
+    .mui-action-back{
+        touch-action: none;
+    }
     #item1 .mui-card{
         margin-top: 70px;
         margin-bottom: 70px;
     }
     .mui-segmented-control{
         border: none;
+        touch-action: none;
     }
     .mui-segmented-control .mui-control-item{
         border-left: none;
@@ -188,6 +203,7 @@ export default {
     .xi{
         width: 100%;
         height: 100%;
+        margin-top: 30px;
     }
     .buy{
         position: fixed;
@@ -209,19 +225,22 @@ export default {
     .buy a:nth-child(4){
         background: orange;
         color: #fff;
-        line-height: 50px;
+        line-height: 58px;
         position: absolute;
         margin: 0px;
     }
     .buy a:nth-child(5){
         background: red;
         color: #fff;
-        line-height: 50px;
+        line-height: 58px;
         position: absolute;
         right: 0px;
         margin: 0px;
     }
     .mui-pull-left{
         margin-top: 10px;
+    }
+    .mui-table-view.mui-grid-view{
+        margin-top: 70px;
     }
 </style>

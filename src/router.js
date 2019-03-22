@@ -18,7 +18,7 @@ var router = new VueRouter({
 		{ path: '/char', component: char },
 		{ path: '/search', component: search },
 		{path:'/home/supermarket', component:supermarket},
-		{path:'/home/supermarket/about',component:about},
+		{path:'/home/supermarket/about/:id',component:about,name:'about'},
 		{path:'/member/reg',component:reg},
 		{ path: '/home/wenzhang', component: wenzhang },
 		{ path: '/home/wenzhang/wenzhanginfo/:id', component: wenzhanginfo }

@@ -5,8 +5,8 @@
 			<h1 class="mui-title">超市</h1>
 		</header>
         <ul class="mui-table-view mui-grid-view">
-		        <li class="mui-table-view-cell mui-media mui-col-xs-6"  v-for="item in marlist">
-		            <router-link v-bind:marid="11223" to="/home/supermarket/about" href="#">
+		        <li class="mui-table-view-cell mui-media mui-col-xs-6"  v-for="item in marlist"  @click="getId(item.id,item.title,item.zhaiyao,item.market_price,item.sell_price,item.img_url)">
+		            <router-link to="" href="#">
 		                <img class="mui-media-object" v-bind:src="item.img_url">
 		                <div class="mui-media-body">
 							<p style="color:#000">{{item.title}}</p>
@@ -44,6 +44,20 @@ export default {
 		getMore(){
 			this.pageindex++;
 			this.get();
+		},
+		getId(id,title,zhaiyao,market_price,sell_price,img_url){
+			this.$router.push({
+				//path: `/home/supermarket/about/${id}`,
+					name:'about',
+					params:{
+						id:id,
+						title:title,
+						zhaiyao:zhaiyao,
+						market_price:market_price,
+						sell_price,sell_price,
+						img_url:img_url
+					}
+			})
 		}
 	},
 	created () {

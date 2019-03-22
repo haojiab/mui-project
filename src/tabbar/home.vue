@@ -1,11 +1,11 @@
 <template>
-    <div>
+    <div class="home">
         <mt-swipe :auto="4000" :showIndicators="false">
-        <mt-swipe-item></mt-swipe-item>
-        <mt-swipe-item></mt-swipe-item>
-        <mt-swipe-item></mt-swipe-item>
-	<mt-swipe-item></mt-swipe-item>
-</mt-swipe>
+		<mt-swipe-item></mt-swipe-item>
+		<mt-swipe-item></mt-swipe-item>
+		<mt-swipe-item></mt-swipe-item>
+		<mt-swipe-item></mt-swipe-item>
+	</mt-swipe>
 
 	        <ul class="mui-table-view mui-grid-view mui-grid-9">
 		            <router-link to="/home/supermarket" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4"><a href="#">
@@ -28,6 +28,8 @@
 		                    <div class="mui-media-body">领劵</div></a></li>
 		        
 		        </ul> 
+		<div class="flag">
+		</div>
     </div>
 </template>
 <script>
@@ -58,6 +60,14 @@ export default {
 .mint-swipe-item:nth-child(4){
 	background: url("../image/5.jpg") no-repeat;
 	background-size: 100%;
+}
+.flag{
+	width: 50px;
+	height: 43px;
+	background: #007aff ;
+	position: absolute;
+	top: 0px;
+	z-index: 11;
 }
 </style>
 

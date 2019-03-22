@@ -1,9 +1,9 @@
 <template>
     <div>
-        <header id="header" class="mui-bar mui-bar-nav">
+        <!-- <header id="header" class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">购物车</h1>
-		</header>
+		</header> -->
         <div class="mui-card">
 			<div class="mui-card-header">
                  <span>
@@ -30,11 +30,11 @@
                                                 派力特 方便食品 掌心脆干脆面<BR/>
                                                  办公室休闲零食方便面干吃面...
                                                     <span class="ding">购买数量：</span>
-				                                    <div class="mui-numbox" data-numbox-min='1' data-numbox-max='100'>
-					                                <button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
-					                                <input class="mui-input-numbox" type="number" value="1"/>
-					                                <button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
-				                                </div>
+				                                    <div class="mui-numbox" data-numbox-min='1' data-numbox-max='99'>
+					<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+					<input id="test" class="mui-input-numbox" type="number" value="1" />
+					<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+				</div>
                                                 
 						                    </div>
 					                    </a>
