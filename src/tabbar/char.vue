@@ -30,9 +30,9 @@
                                                 派力特 方便食品 掌心脆干脆面<BR/>
                                                  办公室休闲零食方便面干吃面...
                                                     <span class="ding">购买数量：</span>
-				                                    <div class="mui-numbox" data-numbox-min='1' data-numbox-max='99'>
+				                                    <div class="mui-numbox"  data-numbox-min='1' data-numbox-max='999'>
 					<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
-					<input id="test" class="mui-input-numbox" type="number" value="1" />
+					<input id="test" class="mui-input-numbox" type="number" value="5" />
 					<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
 				</div>
                                                 
@@ -65,9 +65,9 @@
 		    </nav>
     </div>
 </template>
-<script src="../js/mui.js"></script>
-
 <script>
+import mui from '../js/mui.js';
+mui(".mui-numbox").numbox()
 export default {
     
 }

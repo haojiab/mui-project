@@ -16,7 +16,17 @@
         <div>
                     <div id="item1" class="mui-control-content mui-active">
                        <div class="mui-card about-in">
-				            <div class="mui-card-header"><img v-bind:src="img_url" alt=""></div>
+				            <div class="mui-card-header">
+                                <img v-bind:src="img_url" alt="">
+                                <transition
+                                        @before-enter="beforeEnter"
+                                        @enter="enter"
+                                        @after-enter="afterEnter"
+                                    >
+                                    <img class="ball" v-if="flag" v-bind:src="img_url" alt="">
+                                </transition>
+                                
+                            </div>
 				                <div class="mui-card-content">
 					                <div class="mui-card-content-inner">
                                         {{title}}
@@ -32,7 +42,7 @@
                                     <p>
                                         已选
                                         <span>1个</span>
-                                        <span class="righ">···</span>
+                                        <a href="#picture" class="righ mui-btn-outlined">···</a>
                                          
                                     </p>
                                     <p>
@@ -45,6 +55,22 @@
                                         <span>免运费</span>
                                         <span class="righ">···</span>
                                     </p>
+                                </div>
+                                <div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+                                    <ul class="mui-table-view">
+                                        <li class="mui-table-view-cell">
+                                             <div class="mui-numbox"  data-numbox-min='1' data-numbox-max='999'>
+					<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+					<input id="test" class="mui-input-numbox" type="number" value="1" />
+					<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+				</div>
+                                        </li>
+                                    </ul>
+                                    <ul class="mui-table-view">
+                                        <li class="mui-table-view-cell">
+                                            <a href="#picture"><b>取消</b></a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
 			            </div>
@@ -116,10 +142,11 @@
 		                    <div class="mui-media-body">进店</div></a>
 		            <a class="mui-col-xs-2" href="#">
 		                    <span class="mui-icon-extra mui-icon-extra-cart"></span>
+                            <span class="mui-badge items">{{items}}</span></span>
 		                    <div class="mui-media-body">购物车</div></a>
-                    <router-link to="/char" href="#" class="mui-col-xs-3">
+                    <a @click="flag=!flag;addItems()"   href="#" class="mui-col-xs-3">
                         加入购物车
-                    </router-link>
+                    </a>
                     <a href="#" class="mui-col-xs-3">
                         立即购买
                     </a>
@@ -128,6 +155,9 @@
 </template>
 
 <script>
+import swiper from '../swiper/swiper.vue';
+import mui from '../js/mui.js'
+mui(".mui-numbox").numbox
 export default {
     data(){
         return {
@@ -136,14 +166,86 @@ export default {
             zhaiyao:this.$route.params.zhaiyao,
             market_price:this.$route.params.market_price,
             sell_price:this.$route.params.sell_price,
-            img_url:this.$route.params.img_url
+            img_url:this.$route.params.img_url,
+            swipList:[],
+            flag: false,
+            items:0,
         }
     },
+    methods:{
+        getGoodImage(){
+            this.$http.get('api/getthumimages/'+this.id).then(result=>{
+                if(result.body.status===0){
+                    for (var i in result.body.message) {
+                        this.swipList[i]={img:result.body.message[i].src}
+                    }
+                     console.log(this.swipList)
+                }else{
+                    console.log('失败')
+                }
+            })
+        },
+        beforeEnter(el) {
+                    // 表示动画入场之前，此时动画还未开始，可以在其中
+                    // 设置元素开始动画之前的起始样式
+                    // 设置小球开始动画之前的起始位置
+                    el.style.transform = 'translate(0,0)';
+                },
+         enter(el,done) {
+                    //没有实际效果，但不可缺少，可以理解为强制动画刷新
+                    el.offsetWidth;//offsetHeight、offsetLeft等都可以
+                    //表示动画，开始之后的样式，可以设置小球完成动画的结束状态
+                    el.style.transform = 'translate(-150px,390px) scale(0.3)';
+                    el.style.transition = 'all 2s ease';
+                    // 这里的 done，其实就是 afterEnter 这个函数，
+                    // 也就是说：done 是 afterEnter 函数的引用
+                    done();
+                },
+        afterEnter(el) {
+                    //表示动画完成之后小球的状态
+
+				    // 使用 flag 标识符，来表示动画的切换；
+				    // Vue 把一个完整的动画，使用钩子函数，拆分为了两部分；
+				    // 对flag：第一部分 false -> true ;  第二部分 true -> false
+				    
+				    // 这句话，第一个功能，是控制小球的显示与隐藏
+				    // 第二个功能：直接跳过后半场动画，让 flag 标识符直接变为 false
+				    // 当第二次再点击按钮的时候，flag = false -> true
+                    this.flag = !this.flag;
+                    clearTimeout(this.addItems)
+                },
+                addItems(){
+                    setTimeout(()=>{
+                        this.items++
+                    },2000)
+                }
+
+    },
+    created(){
+        //this.getGoodImage();
+    },
+    components: {
+         'swiper':swiper,
+    }
 
 }
 </script>
 
 <style scoped>
+    .items{
+        background: red;
+        color: #fff;
+    }
+    .ball{
+        width: 50px;
+        height: 50px;
+        position: fixed;
+        right: 20px;
+        z-index: 999;
+    }
+    .mui-popover{
+        left: 0px;
+    }
     #item2 .mui-card:nth-child(1){
         margin-top: 70px;
     }

@@ -23,6 +23,7 @@ var vm = new Vue({
 	//挂载路由
 	router
 })
+Vue.config.productionTip=false//去除警告?
 //全局过滤器
 Vue.filter('dataFormat',function (input) {   //定义全局过滤器
 	var d = new Date(input);

@@ -1,11 +1,6 @@
 <template>
     <div class="home">
-        <mt-swipe :auto="4000" :showIndicators="false">
-		<mt-swipe-item></mt-swipe-item>
-		<mt-swipe-item></mt-swipe-item>
-		<mt-swipe-item></mt-swipe-item>
-		<mt-swipe-item></mt-swipe-item>
-	</mt-swipe>
+        <swiper :swipList="swipList"></swiper>
 
 	        <ul class="mui-table-view mui-grid-view mui-grid-9">
 		            <router-link to="/home/supermarket" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4"><a href="#">
@@ -33,33 +28,40 @@
     </div>
 </template>
 <script>
+import swiper from '../swiper/swiper.vue'
 export default {
-    
+    data(){
+	    return {
+		  swipList:[]  
+	    }
+    },
+    methods: {
+	    getSwipList(){
+            this.$http.get('api/getlunbo').then(result=>{
+                if(result.body.status===0){
+                    //console.log(result.body.message)
+		    this.swipList = result.body.message
+		    //console.log(this.swipList)
+                }else{
+                    console.log("请求失败")
+                }
+            })
+        }
+    },
+    created () {
+	    this.getSwipList()
+    },
+    components: {
+         'swiper':swiper,
+    }
 }
 </script>
 <style>
 .mint-swipe-items-wrap {
     height: 150px;
 }
-
 .mui-table-view-cell img{
     width: 60px;height: 60px;
-}
-.mint-swipe-item:nth-child(1){
-	background: url("../image/2.jpg") no-repeat;
-	background-size: 100%;
-}
-.mint-swipe-item:nth-child(2){
-	background: url("../image/3.jpg") no-repeat;
-	background-size: 100%;
-}
-.mint-swipe-item:nth-child(3){
-	background: url("../image/4.jpg") no-repeat;
-	background-size: 100%;
-}
-.mint-swipe-item:nth-child(4){
-	background: url("../image/5.jpg") no-repeat;
-	background-size: 100%;
 }
 .flag{
 	width: 50px;
@@ -69,6 +71,7 @@ export default {
 	top: 0px;
 	z-index: 11;
 }
+
 </style>
 
 

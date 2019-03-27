@@ -73,6 +73,7 @@ export default {
 	background: red;
 	a{
 		color: #fff;
+		touch-action: none;
 	}
 	h1{
 		color: #fff;
