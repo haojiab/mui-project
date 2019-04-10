@@ -22,8 +22,9 @@
                                         @before-enter="beforeEnter"
                                         @enter="enter"
                                         @after-enter="afterEnter"
+                                        
                                     >
-                                    <img class="ball" v-if="flag" v-bind:src="img_url" alt="">
+                                    <img class="ball" ref="img" v-if="flag"  v-bind:src="img_url" alt="">
                                 </transition>
                                 
                             </div>
@@ -140,10 +141,10 @@
 		            <a class="mui-col-xs-2" href="#">
 		                   <span class="mui-icon mui-icon-upload"></span>
 		                    <div class="mui-media-body">进店</div></a>
-		            <a class="mui-col-xs-2" href="#">
+		            <router-link to="/char" class="mui-col-xs-2" id="gouwu" href="#">
 		                    <span class="mui-icon-extra mui-icon-extra-cart"></span>
-                            <span class="mui-badge items">{{items}}</span></span>
-		                    <div class="mui-media-body">购物车</div></a>
+                            <span class="mui-badge items">{{$store.getters.getnum}}</span></span>
+		                    <div class="mui-media-body">购物车</div></router-link>
                     <a @click="flag=!flag;addItems()"   href="#" class="mui-col-xs-3">
                         加入购物车
                     </a>
@@ -169,10 +170,24 @@ export default {
             img_url:this.$route.params.img_url,
             swipList:[],
             flag: false,
-            items:0,
+            goodInfo:{},
+            goodsNumber:1
         }
     },
     methods:{
+        getGoodsInfo(){
+            this.$http.get('api/goods/getinfo/'+this.id).then(result=>{
+                if(result.body.status===0){
+                    this.goosInfo = result.body;
+                    //console.log(this.goodInfo)
+                }else{
+                    alert("请求失败")
+                }
+            })
+        },
+        getGoodsNumber(count){
+            this.goodsNumber = count
+        },
         getGoodImage(){
             this.$http.get('api/getthumimages/'+this.id).then(result=>{
                 if(result.body.status===0){
@@ -191,12 +206,23 @@ export default {
                     // 设置小球开始动画之前的起始位置
                     el.style.transform = 'translate(0,0)';
                 },
-         enter(el,done) {
+        enter(el,done) {
                     //没有实际效果，但不可缺少，可以理解为强制动画刷新
                     el.offsetWidth;//offsetHeight、offsetLeft等都可以
                     //表示动画，开始之后的样式，可以设置小球完成动画的结束状态
-                    el.style.transform = 'translate(-150px,390px) scale(0.3)';
-                    el.style.transition = 'all 2s ease';
+                    //getBoundingClientRect
+                    var imgWei = this.$refs.img.getBoundingClientRect();
+                    // 移动图签的起始坐标获取
+                    var gouWei = document.getElementById("gouwu").getBoundingClientRect();
+                    // 移动图标移动位置终点坐标
+                    //var gouHei = document.getElementById("gou").offsetHeight;
+                    var x = gouWei.left-imgWei.left;
+                    var y = gouWei.top-imgWei.top;
+                    //两位置的距离
+                    //字符串模板
+                    el.style.transform = `translate( ${x}px,${y}px ) scale(0.3)`;
+                    el.style.transition = 'all 1s cubic-bezier(0,0,1,1)';
+                    
                     // 这里的 done，其实就是 afterEnter 这个函数，
                     // 也就是说：done 是 afterEnter 函数的引用
                     done();
@@ -213,20 +239,31 @@ export default {
 				    // 当第二次再点击按钮的时候，flag = false -> true
                     this.flag = !this.flag;
                     clearTimeout(this.addItems)
+                    let shopinfo = {
+                        id:this.id,
+                        number:this.goodsNumber,
+                        price:this.sell_price,
+                        seleted:true
+                    }
+                    this.$store.commit('addChar',shopinfo);
+                    console.log(this.$store.getters.getGoodsCount);
                 },
-                addItems(){
-                    setTimeout(()=>{
-                        this.items++
-                    },2000)
-                }
+                    addItems(){        //延迟执行
+                        setTimeout(()=>{
+                            this.$store.commit('add')
+                        },1000)
+                    
+                    }
 
     },
     created(){
         //this.getGoodImage();
+        this.getGoodsInfo();
     },
     components: {
          'swiper':swiper,
-    }
+    },
+    
 
 }
 </script>

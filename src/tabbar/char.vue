@@ -12,11 +12,11 @@
                  <a href="#" style="color:red">编辑商品</a>
             </div>
 			<div class="mui-card-content">
-				<div class="mui-card-content-inner">
-                    <div class="mui-input-row mui-checkbox mui-left">
-						<label>自营<span style="float:right;color:red">商家免邮</span></label>
-						<input name="checkbox" value="Item 1" type="checkbox" >
-                        <div style="font-size:13px;">
+				<div class="mui-card-content-inner" v-for="(item,index) in list">
+                    <div class="mui-input-row mui-checkbox mui-left "  >
+						<label class="fenge">自营<span @click="removeList(item.id,index)" style="float:right;color:blue">删除</span></label>
+						<!-- <input checked = "false" name="checkbox" value="Item 1" type="checkbox" > -->
+                        <div style="font-size:13px;margin-top:10px;">
                             <span style="margin-left:15px;" class="mui-badge mui-badge-danger">优惠</span>
                             已购满一件，享受满30-25优惠 
                         </div>
@@ -25,14 +25,15 @@
                                 <ul class="mui-table-view">
 				                    <li class="mui-table-view-cell mui-media">
 					                    <a href="javascript:;">
-						                    <img class="mui-media-object mui-pull-left" src="../image/f1.jpg">
+						                    <img class="mui-media-object mui-pull-left" :src="item.thumb_path">
 						                    <div class="mui-media-body">
-                                                派力特 方便食品 掌心脆干脆面<BR/>
-                                                 办公室休闲零食方便面干吃面...
+                                                {{
+                                                    item.title
+                                                }}
                                                     <span class="ding">购买数量：</span>
 				                                    <div class="mui-numbox"  data-numbox-min='1' data-numbox-max='999'>
-					<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
-					<input id="test" class="mui-input-numbox" type="number" value="5" />
+					<button class="mui-btn mui-btn-numbox-minus" type="button" @click="">-</button>
+					<input id="test" class="mui-input-numbox" type="number" :value="$store.getters.getGoodsCount[item.id]" />
 					<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
 				</div>
                                                 
@@ -40,8 +41,9 @@
 					                    </a>
 				                    </li>
                                 </ul>
+                                <p class="price"> <span style="color:#000">单价:</span> {{item.sell_price}}</p>
                             </label>
-						    <input class="onee" name="checkbox" value="Item 1" type="checkbox" >  
+						    <input  @click="onChange(item.id,$store.getters.getGoodsCount[item.id])" checked class="onee" name="checkbox" value="Item 1" type="checkbox" >  
                         </div>
 					</div>
                       
@@ -52,11 +54,11 @@
 		            <a class="mui-col-xs-4" href="#">
                         <div class="mui-input-row mui-checkbox mui-left">
 						<label>全选</label>
-						<input name="checkbox" value="Item 1" type="checkbox" >
+						<input checked name="checkbox" value="Item 1" type="checkbox" >
 					</div>
                     </a>
                     <a href="#" class="mui-col-xs-4">
-                       <strong>总计：</strong><span style="color:red">￥15.5</span><br/>
+                       <strong>总计：</strong><span style="color:red">{{$store.getters.allPrice}}</span><br/>
                        <span style="color:#999;font-size:13px">总额50，立减34.5</span>
                     </a>
                     <a href="#" class="mui-col-xs-4">
@@ -69,12 +71,65 @@
 import mui from '../js/mui.js';
 mui(".mui-numbox").numbox()
 export default {
-    
+    data () {
+        return {
+            info:this.$store.getters.getlist,
+            list:[]
+        }
+    },
+    methods: {
+        getId(){                  //将购物车中的产品id拼接为字符串
+            let idArr = [];
+            let str = ''
+            this.$store.state.shopChar.forEach((element,index)=>{
+                idArr[index] = element.id;
+            })
+            str=idArr.join(',')
+             this.$http.get('api/goods/getshopcarlist/'+str).then(result=>{
+                if(result.body.status===0){
+                    this.list = result.body.message;
+                    console.log(this.list)
+                }else{
+                    alert("请求失败")
+                }
+            })
+        },
+        onChange(id,number){
+            //alert()
+            this.$store.commit('changeSelect',[id,number])
+        },
+        removeList(id,index){
+            this.list.splice(index,1)   //删除购物车页面的列表
+            this.$store.commit('removeChar',id)   //删除购物车仓库的列表(数据)
+        }
+       
+    },
+    created () {
+        this.getId();
+    }
 }
 </script>
 <style scoped>
+    .price{
+        float:right;
+        color:red;
+        margin-right: 30px;
+
+    }
+    .fenge{
+        border: #ccc 1px solid;
+        height: 40px;
+
+       
+    }
+    .mui-card{
+        margin-bottom: 70px;
+    }
     .mui-card-content-inner{
         padding: 0px;
+    }
+    .mui-card-header:after, .mui-card-footer:before{
+        background-color: #fff
     }
     .ding{
         position: absolute;

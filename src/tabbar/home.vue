@@ -46,14 +46,15 @@ export default {
                     console.log("请求失败")
                 }
             })
-        }
+		},
     },
     created () {
 	    this.getSwipList()
     },
     components: {
          'swiper':swiper,
-    }
+	},
+	
 }
 </script>
 <style>
